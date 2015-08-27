@@ -3,14 +3,14 @@ from requests_snooper import middlewarefy, activate_monkey_patch
 
 
 @middlewarefy
-def hello(create_response):
-    def _hello(context, request):
+def capture(create_response):
+    def _capture(context, request):
         print(">>> request.url={}".format(request.url))
         response = create_response(context, request)
-        print("<<< response.core={}".format(response.status_code))
+        print("<<< response.code={}".format(response.status_code))
         return response
-    return _hello
+    return _capture
 
-activate_monkey_patch([hello])
+activate_monkey_patch([capture])
 response = requests.get("http://github.com/podhmo/requests-snooper")
 print(response)

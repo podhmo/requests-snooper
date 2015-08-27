@@ -18,7 +18,7 @@ the way of using
       def _hello(context, request):
           print(">>> request.url={}".format(request.url))
           response = create_response(context, request)
-          print("<<< response.core={}".format(response.status_code))
+          print("<<< response.code={}".format(response.status_code))
           return response
       return _hello
 
@@ -32,8 +32,9 @@ output
 ::
 
   >>> request.url=http://github.com/podhmo/requests-snooper
+  >>> request.url=http://github.com/podhmo/requests-snooper
+  <<< response.code=301
   >>> request.url=https://github.com/podhmo/requests-snooper
-  <<< response.core=404
-  <<< response.core=404
-  <Response [404]>
-
+  <<< response.code=200
+  <<< response.code=200
+  <Response [200]>
