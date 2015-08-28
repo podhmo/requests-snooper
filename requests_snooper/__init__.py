@@ -49,4 +49,6 @@ def activate_monkey_patch(middlewares, session_factory=OnionSession):
         session = session_factory(middlewares)
         return session.request(method=method, url=url, **kwargs)
     requests.api.request = request
-    requests.session = session_factory
+
+    # after this, isinstance or issubclass is not worked
+    requests.Session = lambda: session_factory(middlewares)
