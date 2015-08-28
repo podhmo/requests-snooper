@@ -34,11 +34,19 @@ def middlewarefy(fn):
         return lambda context, request: fn(closure)(context, request)
     return middleware
 
+patched = False
+
 
 def activate_monkey_patch(middlewares, session_factory=OnionSession):
-    import requests.api as api
+    global patched
+    if patched:
+        return
+    patched = True
+
+    import requests.api
 
     def request(method, url, **kwargs):
         session = session_factory(middlewares)
         return session.request(method=method, url=url, **kwargs)
-    api.request = request
+    requests.api.request = request
+    requests.session = session_factory
